@@ -89,7 +89,7 @@ add_action('woocommerce_checkout_order_processed', array( __CLASS__, 'sendOrderP
 		 
 		 $order = new WC_Order($order_id);
 		 
-		 $smsMessage = $settings->get_option( 'order_sms_text' );
+		 //$smsMessage = $settings->get_option( 'order_sms_text' );
 		 //$smsMessage  = 'HELLO';
  		 $dd=date("md");
 		 $firstName = get_post_meta($order_id,'_billing_first_name',true);
@@ -97,7 +97,9 @@ add_action('woocommerce_checkout_order_processed', array( __CLASS__, 'sendOrderP
 		 $replaceWord['FIRSTNAME'] = $firstName;
 		 $replaceWord['DATE']=$dd;
 		 $replaceWord['TOTAL'] = $order->get_total();
-		 $messageBody = self::rep_templates($smsMessage,$replaceWord);
+		 //$messageBody = self::rep_templates($smsMessage,$replaceWord);
+		/*OrDer SMS*/
+		$messageBody="Thanks for order with us your order id is".$order_id;
 		 $messageBody = urlencode($messageBody);
 		 self::sendSMS($order_id,$messageBody);
 		 
@@ -133,8 +135,11 @@ add_action('woocommerce_checkout_order_processed', array( __CLASS__, 'sendOrderP
 		$username = $settings->get_option( 'hsp_username' );;
 		 
 		//$url="http://9ksms.pointsms.in/API/sms.php?username=khanawala&password=123456&from=KHAANA&to=$phoneNumber&msg=$messageBody&type=1&dnd_check=0";
+	/***************************************/
 		
-		$url="https://chilangos.com.au/api.php?msg=$messageBody&num=$phoneNumber";
+	/*      just here change your SMS API link */	
+	/*******************************************/	
+		$url="https://yourSmsApi.com.au/api.php?msg=$messageBody&num=$phoneNumber";
 		 
 		$data=wp_remote_get($url);
 		
